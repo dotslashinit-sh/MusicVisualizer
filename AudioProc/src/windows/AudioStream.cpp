@@ -4,7 +4,7 @@
 #include <audiopolicy.h>
 
 #define RETURN_ERROR(x, code, msg) \
-    if((x) != S_OK) \
+    if(FAILED(x)) \
         return GenError(code, msg);
 
 const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
@@ -14,6 +14,13 @@ const IID IID_IAudioCaptureClient = __uuidof(IAudioCaptureClient);
 
 Status_t WindowsAudioStream_t::LoopbackCapture(WindowsAudioStream_t* stream) {
     IMMDeviceEnumerator * _pEnumerator;
+    WAVEFORMATEX* pWf;
+
+    RETURN_ERROR(CoInitialize(NULL),
+        ERROR_CODE_UNKNOWN,
+        "An unknown error occurred when running CoInitialize()!"
+    );
+    
     RETURN_ERROR(CoCreateInstance(CLSID_MMDeviceEnumerator,
         NULL,
         CLSCTX_ALL,
@@ -30,7 +37,7 @@ Status_t WindowsAudioStream_t::LoopbackCapture(WindowsAudioStream_t* stream) {
         "Failed to get default loopback audio device!"
     );
 
-    CoTaskMemFree(_pEnumerator);
+    _pEnumerator->Release();
 
     RETURN_ERROR(
         stream->m_pDevice->Activate(IID_IAudioClient, CLSCTX_ALL, NULL, (void**)&stream->m_pAudioClient),
@@ -38,7 +45,6 @@ Status_t WindowsAudioStream_t::LoopbackCapture(WindowsAudioStream_t* stream) {
         "Failed to activate audio device!"
     );
 
-    WAVEFORMATEX* pWf;
     RETURN_ERROR(stream->m_pAudioClient->GetMixFormat(&pWf),
         ERROR_CODE_DATA_FETCH_FAIL,
         "Failed to get the audio format!"
@@ -116,14 +122,14 @@ const size_t WindowsAudioStream_t::GetSampleRate() const {
 
 void WindowsAudioStream_t::ReleaseStream() {
     if(m_pCaptureClient != nullptr) {
-        CoTaskMemFree(m_pCaptureClient);
+        m_pCaptureClient->Release();
     }
     if(m_pAudioClient != nullptr) {
         m_pAudioClient->Stop();
-        CoTaskMemFree(m_pAudioClient);
+        m_pAudioClient->Release();
     }
     if(m_pDevice != NULL) {
-        CoTaskMemFree(m_pDevice);
+        m_pDevice->Release();
     }
 }
 

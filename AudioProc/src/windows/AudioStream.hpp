@@ -20,7 +20,7 @@ public:
     void ReleaseStream();
 
 private:
-    IMMDevice* m_pDevice;
-    IAudioClient* m_pAudioClient;
-    IAudioCaptureClient* m_pCaptureClient;
+    IMMDevice* m_pDevice = nullptr;
+    IAudioClient* m_pAudioClient = nullptr;
+    IAudioCaptureClient* m_pCaptureClient = nullptr;
 };
