@@ -2,7 +2,10 @@
 
 cmake_minimum_required(VERSION 3.21)
 
-project("MusicVisualizer" VERSION 4.0)
+project("MusicVisualizer" VERSION 5.0)
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 include(CPack)
 
@@ -15,5 +18,5 @@ configure_file(CMake/config.h.in config.h)
 
 add_subdirectory("MusicVisualizer")
 
-# # Add the main module.
-# add_subdirectory("Visualizer")
+# Add the main module.
+add_subdirectory("Visualizer")
