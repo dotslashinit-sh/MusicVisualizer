@@ -16,7 +16,5 @@ add_subdirectory(AudioProc)
 # Generate configuration header.
 configure_file(CMake/config.h.in config.h)
 
+# Add the main module
 add_subdirectory("MusicVisualizer")
-
-# Add the main module.
-add_subdirectory("Visualizer")
