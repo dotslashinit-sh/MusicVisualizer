@@ -1,17 +1,19 @@
 # CMakeLists.txt: CMake project to build and configure the Music Visualizer project.
 
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.21)
 
-project("MusicVisualizer" VERSION 3.1)
+project("MusicVisualizer" VERSION 4.0)
 
-# Include CPack to generate installers (for fun).
 include(CPack)
 
-# Add the third libraries which will be used.
-add_subdirectory("Libraries")
+add_subdirectory(Libraries)
+
+add_subdirectory(AudioProc)
 
 # Generate configuration header.
-configure_file("CMake/config.h.in" "config.h")
+configure_file(CMake/config.h.in config.h)
 
-# Add the main module.
-add_subdirectory("Visualizer")
+add_subdirectory("MusicVisualizer")
+
+# # Add the main module.
+# add_subdirectory("Visualizer")
