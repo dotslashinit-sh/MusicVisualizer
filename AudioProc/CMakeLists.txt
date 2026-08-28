@@ -12,9 +12,11 @@ list(APPEND AudioProc_SRCS
 "src/windows/AudioStream.cpp"
 )
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-
 add_library(AudioProc STATIC ${AudioProc_SRCS})
-target_link_libraries(AudioProc PUBLIC fftw3f)
+
+list(APPEND AudioProc_LIBS
+    fftw3f
+)
+
 target_include_directories(AudioProc PUBLIC src)
+target_link_libraries(AudioProc PUBLIC ${AudioProc_LIBS})

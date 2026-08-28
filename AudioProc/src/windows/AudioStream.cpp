@@ -7,6 +7,11 @@
     if((x) != S_OK) \
         return GenError(code, msg);
 
+const CLSID CLSID_MMDeviceEnumerator = __uuidof(MMDeviceEnumerator);
+const IID IID_IMMDeviceEnumerator = __uuidof(IMMDeviceEnumerator);
+const IID IID_IAudioClient = __uuidof(IAudioClient);
+const IID IID_IAudioCaptureClient = __uuidof(IAudioCaptureClient);
+
 Status_t WindowsAudioStream_t::LoopbackCapture(WindowsAudioStream_t* stream) {
     IMMDeviceEnumerator * _pEnumerator;
     RETURN_ERROR(CoCreateInstance(CLSID_MMDeviceEnumerator,

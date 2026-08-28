@@ -32,7 +32,7 @@ Visualizer::Visualizer(const VisualizerConfig_t& config): m_config(config), m_bu
     if(status != STATUS_OK) {
         const Error_t err = status.value();
         throw std::runtime_error(std::format("Failed to create audio stream! Error code: {}\r\nMsg: {}",
-            err.Code, err.Message
+            static_cast<int>(err.Code), err.Message
         ));
     }
     m_sampleRate = m_stream->GetSampleRate();
@@ -69,7 +69,7 @@ void Visualizer::_CalculateSpectrum() {
     {
         std::lock_guard lk(m_fftLock);
         // Copy fft output for processing.
-        std::copy(m_fftOut, m_fftOut + m_fftOutSize, m_fftOutCp);
+        std::memcpy(m_fftOutCp, m_fftOut, m_fftOutSize);
     }
 }
 

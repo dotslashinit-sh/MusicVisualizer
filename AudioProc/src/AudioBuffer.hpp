@@ -14,14 +14,14 @@ public:
     AudioBuffer_t() = delete;
     AudioBuffer_t(size_t size) : m_data(size) {}
 
-    inline void ReadSamples(size_t start, size_t length, uint16_t* dest) {
+    inline void ReadSamples(size_t start, size_t length, Sample_t* dest) {
         auto s = m_data.begin() + start;
         auto e = length;
         if(start >= m_data.size()) {
-            std::fill(dest, dest+length, 0);
+            std::fill(dest, dest+length, 0.0f);
         } else if(start+length > m_data.size()) {
             e = m_data.size() - start;
-            std::fill(dest + e, dest + length, 0);
+            std::fill(dest + e, dest + length, 0.0f);
         }
         copy(s, s + e, dest);
     }

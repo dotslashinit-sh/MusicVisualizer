@@ -20,7 +20,7 @@ public:
     /// @return Returns `STATUS_OK` if successful.
     virtual Status_t UpdateAudioBuffer(AudioBuffer_t* buffer) = 0;
 
-    virtual const size_t GetSampleRate() const;
+    virtual const size_t GetSampleRate() const = 0;
 
 protected:
     AudioStreamConfig_t m_config;

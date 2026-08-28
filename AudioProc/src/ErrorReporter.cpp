@@ -25,7 +25,7 @@ void ErrorReporter::_ReporterWorker() {
             return m_shutDownRequest || m_error.has_value();
         });
         if(m_error.has_value()) {
-            std::println("Error: Code: {}: {}", m_error.value().Code, m_error.value().Message);
+            std::println("Error: Code: {}: {}", static_cast<int>(m_error.value().Code), m_error.value().Message);
             m_error = std::nullopt;
         }
     }
