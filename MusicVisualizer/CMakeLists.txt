@@ -4,8 +4,6 @@ list(APPEND MusicVisualizer_SRCS
     src/VisualVisualizer.hpp
     src/Window.hpp
     src/Window.cpp
-    src/Status.hpp
-    src/Status.cpp
 )
 
 set(CMAKE_CXX_STANDARD 23)

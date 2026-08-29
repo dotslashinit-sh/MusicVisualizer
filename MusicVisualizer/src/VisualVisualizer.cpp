@@ -9,7 +9,7 @@
 VisualVisualizer* VisualVisualizer::m_instance = nullptr;
 
 VisualVisualizer::VisualVisualizer(const VisualizerConfig_t& config, const float barGap) :
-    m_window(nullptr), m_visualizer(config), m_heights(nullptr), m_barCount(config.barConfig.size()),
+    m_window(nullptr), m_visualizer(config), m_heights(config.barConfig.size()), m_barCount(config.barConfig.size()),
     m_barGap(barGap)
 {
     if(m_instance != nullptr) {
@@ -22,8 +22,6 @@ VisualVisualizer::VisualVisualizer(const VisualizerConfig_t& config, const float
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     m_instance = this;
-
-    m_heights = new float[config.barConfig.size()];
 }
 
 void VisualVisualizer::CreateWindow(const WindowConfig& cfg) {
@@ -48,52 +46,27 @@ void VisualVisualizer::Display() {
         m_visualizer.Update();
         this->_UpdateHeightsBuffer();
         glDrawArraysInstanced(GL_TRIANGLES, 0, 6, m_barCount);
-        // glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL, m_barCount);
         m_window->SwapBuffers();
         glfwPollEvents();
     }
 }
 
 void VisualVisualizer::_UpdateHeightsBuffer() {
-    m_visualizer.FetchBarHeights(m_heights);
+    m_visualizer.FetchBarHeights(m_heights.data());
     glBindBuffer(GL_ARRAY_BUFFER, m_instanceData);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*m_barCount, m_heights, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*m_barCount, m_heights.data(), GL_DYNAMIC_DRAW);
 }
 
 void VisualVisualizer::_InitializeBuffers() {
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
-    // glGenBuffers(1, &m_vbo);
     glGenBuffers(1, &m_instanceData);
-
-    // // Setup VBO
-    // const float vertices[] = {
-    //     0.0f, 0.0f,
-    //     0.0f, 1.0f,
-    //     1.0f, 0.0f,
-    //     1.0f, 1.0f
-    // };
-    // glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    // glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float)*2, NULL);
-    // glEnableVertexAttribArray(0);
 
     // Instance data
     this->_UpdateHeightsBuffer();
     glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, sizeof(float), NULL);
     glEnableVertexAttribArray(0);
     glVertexAttribDivisor(0, 1);
-    // glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(float), NULL);
-    // glEnableVertexAttribArray(1);
-    // glVertexAttribDivisor(1, 1);
-    
-    // Element data
-    // const unsigned int indices[] = {
-    //     0, 1, 2, 1, 2, 3
-    // };
-    // glGenBuffers(1, &m_ebo);
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 }
 
 std::string ReadFile(const std::string& file) {
@@ -182,5 +155,4 @@ VisualVisualizer::~VisualVisualizer() {
     this->_DestroyShaderProgram();
     this->DestroyWindow();
     glfwTerminate();
-    delete[] m_heights;
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Window.hpp"
-#include "Status.hpp"
 
 #include <Visualizer.hpp>
 
@@ -34,7 +33,7 @@ private:
     Visualizer m_visualizer;
 
     const unsigned int m_barCount;
-    float* m_heights;
+    std::vector<float> m_heights;
     const float m_barGap;
 
     void _InitializeBuffers();
