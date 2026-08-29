@@ -28,7 +28,7 @@ layout(location = 0) in float height;
 // 5 - 3
 
 void main() {
-    float posX = -1.0 + barWidth * gl_InstanceID + barGap;
+    float posX = -1.0 + (barWidth + barGap) * gl_InstanceID;
     if(gl_VertexID == 1 || gl_VertexID == 3 || gl_VertexID == 5) {
         posX += barWidth;
     }
