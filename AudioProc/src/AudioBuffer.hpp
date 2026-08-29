@@ -67,6 +67,10 @@ public:
         return *this;
     }
 
+    Sample_t& operator[](size_t i) {
+        return m_data[i];
+    }
+
 private:
     std::vector<Sample_t> m_data;
 };

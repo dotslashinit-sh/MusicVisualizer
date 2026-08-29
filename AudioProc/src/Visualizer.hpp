@@ -79,15 +79,21 @@ private:
     std::mutex m_fftLock;
     std::vector<float> m_heights;
     std::vector<float> m_prevHeights;
+    std::vector<float> m_windowCoeffs;
     std::atomic_bool m_shouldShutdown;
 
     /// @brief Worker function for updating audio buffer and calculating spectrum.
     void _CaptureWorker();
 
-    /// @brief Calculates the FFT of the audio samples in the buffer and then copies it to `m_fftOut` and `m_fftOutCp`
+    /// @brief Updates audio the buffer, applies the Hanning window,
+    ///  calculates the FFT of the audio samples in the buffer
+    /// and then copies it to `m_fftOut` and `m_fftOutCp`
     void _CalculateSpectrum();
 
     /// @brief Calculates the height of the bars based on the bar configuration and fft output.
     ///  Must be called after `_CalculateSpectrum()`.
     void _CalculateHeight();
+
+    /// @brief Precalculates the window coefficients that needs to be applied.
+    void _PrecalculateWindowCoeffs();
 };

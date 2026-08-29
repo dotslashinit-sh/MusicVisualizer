@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <print>
 
+#define PI 3.14159265359
+
 Visualizer::Visualizer(const VisualizerConfig_t& config): m_config(config), m_buffer(config.fftSize),
     m_captureThreadPtr(), m_fftLock(), m_shouldShutdown(false), m_rep(), m_fftOutSize(config.fftSize/2 + 1)
 {
@@ -56,6 +58,12 @@ Visualizer::Visualizer(const VisualizerConfig_t& config): m_config(config), m_bu
     m_binWidth = static_cast<float>(m_sampleRate)/(m_config.fftSize);
     m_heights.resize(m_config.barConfig.size());
     m_prevHeights.resize(m_config.barConfig.size());
+    float windowCoeff;
+    const double w = 2.0 * PI/ (m_config.fftSize-1);
+    for(int i = 0; i < m_config.fftSize; i++) {
+        windowCoeff = static_cast<float>(0.5 * (1.0 - cos(w*i)));
+        m_windowCoeffs.push_back(windowCoeff);
+    }
 
     std::fill(m_prevHeights.begin(), m_prevHeights.end(), 0.0f);
     m_captureThreadPtr = std::make_unique<std::thread>(&Visualizer::_CaptureWorker, this);
@@ -64,6 +72,10 @@ Visualizer::Visualizer(const VisualizerConfig_t& config): m_config(config), m_bu
 void Visualizer::_CalculateSpectrum() {
     Status_t status;
     status = m_stream->UpdateAudioBuffer(&m_buffer);
+    const auto& sz = m_config.fftSize; // Same as buffer size.
+    for(int i = 0; i < sz; i++) {
+        m_buffer[i] *= m_windowCoeffs[i];
+    }
     if(status != STATUS_OK) {
         m_rep.Report(status.value());
         return;
