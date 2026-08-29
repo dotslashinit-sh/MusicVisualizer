@@ -7,9 +7,10 @@
 int main() {
     VisualizerConfig_t config = {
         .fftSize = 2048,
+        .decayConstant = 0.45f
     };
-    const int BAR_COUNT = 100;
-    float barFreqGap = (200.0f - 20.0f)/config.fftSize;
+    const int BAR_COUNT = 50;
+    float barFreqGap = (20000.0f - 20.0f)/config.fftSize;
     for(int i = 0; i < BAR_COUNT; i++) {
         config.barConfig.emplace_back(i*barFreqGap, (i+1)*barFreqGap, 5.0f);
     }

@@ -28,6 +28,9 @@ struct VisualizerConfig_t {
 
     // Configuration for each bar in the order from left to right.
     std::vector<BarConfig> barConfig;
+
+    // Max rate of bar fall.
+    float decayConstant;
 };
 
 /// @brief A visualizer object that coontinously reads the audio samples from the default audio output of the device
@@ -75,6 +78,7 @@ private:
     std::unique_ptr<std::thread> m_captureThreadPtr;
     std::mutex m_fftLock;
     std::vector<float> m_heights;
+    std::vector<float> m_prevHeights;
     std::atomic_bool m_shouldShutdown;
 
     /// @brief Worker function for updating audio buffer and calculating spectrum.

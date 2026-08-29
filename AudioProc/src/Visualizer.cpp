@@ -5,6 +5,7 @@
 #include <format>
 #include <cmath>
 #include <algorithm>
+#include <print>
 
 Visualizer::Visualizer(const VisualizerConfig_t& config): m_config(config), m_buffer(config.fftSize),
     m_captureThreadPtr(), m_fftLock(), m_shouldShutdown(false), m_rep(), m_fftOutSize(config.fftSize/2 + 1)
@@ -54,7 +55,9 @@ Visualizer::Visualizer(const VisualizerConfig_t& config): m_config(config), m_bu
 
     m_binWidth = static_cast<float>(m_sampleRate)/(m_config.fftSize);
     m_heights.resize(m_config.barConfig.size());
+    m_prevHeights.resize(m_config.barConfig.size());
 
+    std::fill(m_prevHeights.begin(), m_prevHeights.end(), 0.0f);
     m_captureThreadPtr = std::make_unique<std::thread>(&Visualizer::_CaptureWorker, this);
 }
 
@@ -85,12 +88,19 @@ void Visualizer::_CalculateHeight() {
             endIndex = static_cast<unsigned int>(std::ceil(std::get<1>(bar)/m_binWidth));
             multiplier = std::get<2>(bar);
             multiplier *= 10.0f;
+            m_prevHeights[i] = m_heights[i];
             m_heights[i] = 0.0f;
+
             for(; index < endIndex + 1; index++) {
                 real = m_fftOutCp[index][0];
                 imag = m_fftOutCp[index][1];
                 m_heights[i] += multiplier * std::log10f(real*real + imag*imag);
             }
+
+            // Slow fall
+            m_heights[i] = ((m_prevHeights[i] - m_heights[i]) > m_config.decayConstant) ? 
+                (m_prevHeights[i]-m_config.decayConstant) : m_heights[i];
+            
             i++;
         }
     }

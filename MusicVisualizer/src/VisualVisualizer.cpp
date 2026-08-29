@@ -179,6 +179,7 @@ void VisualVisualizer::_DestroyShaderProgram() {
 }
 
 VisualVisualizer::~VisualVisualizer() {
+    this->_DestroyShaderProgram();
     this->DestroyWindow();
     glfwTerminate();
     delete[] m_heights;
