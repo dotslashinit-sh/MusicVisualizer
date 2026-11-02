@@ -109,9 +109,12 @@ void Visualizer::_CalculateHeight() {
             }
 
             // Slow fall
-            m_heights[i] = ((m_prevHeights[i] - m_heights[i]) > m_config.decayConstant) ? 
-                (m_prevHeights[i]-m_config.decayConstant) : m_heights[i];
-            
+            // const auto heightDecay = m_prevHeights[i] * m_config.decayConstant;
+            // const float heightDelta = heightDecay - m_heights[i];
+            // m_heights[i] = (heightDelta > m_config.decayThreshold) ? 
+            //     heightDecay : m_heights[i];
+            // m_heights[i] = (heightDelta > m_config.decayVelocity) ? 
+            m_heights[i] = m_config.heightCalcFunc(&m_config, m_heights[i], m_prevHeights[i]);
             i++;
         }
     }
@@ -137,4 +140,15 @@ Visualizer::~Visualizer() {
     fftwf_free(m_fftOut);
     fftwf_free(m_fftOutCp);
     delete m_stream;
+}
+
+float DecayHeightCalc(const VisualizerConfig_t* cfg, const float height, const float prevHeight) {
+    const auto heightDecay = prevHeight * cfg->decayConstant;
+    const float heightDelta = heightDecay - height;
+    return (heightDelta > cfg->decayThreshold) ? heightDecay : height;
+}
+
+float FallVelocityHeightCalc(const VisualizerConfig_t* cfg, const float height, const float prevHeight) {
+    const auto heightDelta = prevHeight - height;
+    return (heightDelta > cfg->decayVelocity) ? (prevHeight-cfg->decayVelocity) : height; 
 }

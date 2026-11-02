@@ -145,6 +145,7 @@ void VisualVisualizer::_SetupShaders() {
 void VisualVisualizer::SetupGraphics() {
     this->_InitializeBuffers();
     this->_SetupShaders();
+    glfwSwapInterval(1);
 }
 
 void VisualVisualizer::_DestroyShaderProgram() {

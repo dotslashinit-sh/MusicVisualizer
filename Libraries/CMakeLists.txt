@@ -15,7 +15,7 @@ set(BUILD_SHARED_LIBS OFF)
 set(FFTW_DIR "${CMAKE_CURRENT_LIST_DIR}/fftw-3.3.11")
 add_library(fftw3f_imp SHARED IMPORTED)
 set_target_properties(fftw3f_imp PROPERTIES IMPORTED_IMPLIB "${FFTW_DIR}/lib/fftw3f.lib"
-    IMPORTED_LOCATION "{FFTW_DIR}/bin/fftw3f.dll"
+    IMPORTED_LOCATION "${FFTW_DIR}/bin/fftw3f.dll"
 )
 add_library(fftw3f INTERFACE)
 target_include_directories(fftw3f INTERFACE "${FFTW_DIR}/include")

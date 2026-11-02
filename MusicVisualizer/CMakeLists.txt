@@ -11,3 +11,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 add_executable(MusicVisualizer ${MusicVisualizer_SRCS})
 target_link_libraries(MusicVisualizer PRIVATE glad glfw AudioProc)
+
+install(TARGETS MusicVisualizer DESTINATION bin)

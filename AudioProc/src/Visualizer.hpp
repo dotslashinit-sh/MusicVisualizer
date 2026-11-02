@@ -12,6 +12,7 @@
 #include <atomic>
 #include <mutex>
 #include <memory>
+#include <functional>
 
 /// First - starting frequency of the bar (inclusive).
 /// Second - ending frequency of the bar (inclusive).
@@ -20,17 +21,41 @@
 ///  This means that some amount of spectral leakage will occur. For example, if the start frequency is 20kHz, 
 ///  and we are working on stream with sample rate 44.1kHz, with FFT size 2048, then the bin width will be almost 21.533Hz,
 ///  which means the 20kHz frequency bin will contain component from 19.982Khz (approx).
-typedef std::tuple<float, float, float> BarConfig;
+typedef std::tuple<float, float, float> BarConfig_t;
+
+struct VisualizerConfig_t;
+
+// Type of callback function used to calculate height.
+// Structure of function type:
+// Parameters (in the order they appear):
+//  `const float VisualizerConfig_t&`: Visualizer configuration
+//  `const float height`: Current height value
+//  'const float prevHeight`: Previous height value
+typedef std::function<float(const VisualizerConfig_t*, const float, const float)> HeightCalcFunc_t;
 
 struct VisualizerConfig_t {
     // Size of the FFT (N)
     size_t fftSize;
 
     // Configuration for each bar in the order from left to right.
-    std::vector<BarConfig> barConfig;
+    std::vector<BarConfig_t> barConfig;
 
     // Max rate of bar fall.
     float decayConstant;
+
+    // When new height value falls below this threshold, the height will decay.
+    // The new height will be previous_height * decayConstant
+    float decayThreshold;
+
+    // Maximum rate of fall of height
+    float decayVelocity;
+    
+    HeightCalcFunc_t heightCalcFunc;
+
+    // Appends the configs inside `cfgList` into the end of `barConfig`.
+    inline void AppendConfigs(const std::vector<BarConfig_t>& cfgList) {
+        barConfig.insert_range(barConfig.end(), cfgList);
+    }
 };
 
 /// @brief A visualizer object that coontinously reads the audio samples from the default audio output of the device
@@ -97,3 +122,6 @@ private:
     /// @brief Precalculates the window coefficients that needs to be applied.
     void _PrecalculateWindowCoeffs();
 };
+
+float DecayHeightCalc(const VisualizerConfig_t* cfg, const float height, const float prevHeight);
+float FallVelocityHeightCalc(const VisualizerConfig_t* cfg, const float height, const float prevHeight);
