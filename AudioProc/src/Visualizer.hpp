@@ -50,6 +50,7 @@ struct VisualizerConfig_t {
     // Maximum rate of fall of height
     float decayVelocity;
     
+    // Function used to calculate the height. See `HeightCalcFunc_t` to learn more about its type.
     HeightCalcFunc_t heightCalcFunc;
 
     // Appends the configs inside `cfgList` into the end of `barConfig`.
@@ -62,9 +63,6 @@ struct VisualizerConfig_t {
 
     // Generates `n` number of bar config with equal frequency width between `start` and `end` frequencies.
     static std::vector<BarConfig_t> GenNConfigs(float start, float end, size_t n, const float multiplier = 1.0f);
-
-    const VisualizerConfig_t GetDefaultConfig();
-
 };
 
 /// @brief A visualizer object that coontinously reads the audio samples from the default audio output of the device

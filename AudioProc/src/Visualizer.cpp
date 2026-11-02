@@ -118,39 +118,7 @@ Status_t VisualizerConfig_t::ParseYamlFile(const std::string& yamlFile, Visualiz
     return STATUS_OK;
 }
 
-const VisualizerConfig_t VisualizerConfig_t::GetDefaultConfig() {
-    // VisualizerConfig_t defaultConfig = {
-    //     .fftSize = 2048,
-    //     .decayConstant = 0.9f,
-    //     .decayThreshold = 0.0f,
-    //     .decayVelocity = 0.0f,
-    //     .heightCalcFunc = DecayHeightCalc
-    // };
-    VisualizerConfig_t defaultConfig = {
-        .fftSize = 2048,
-        .decayConstant = 0.0f,
-        .decayThreshold = 0.0f,
-        .decayVelocity = 5.0f,
-        .heightCalcFunc = ConstantFallVelocity
-    };
-
-    const auto subBass = GenNConfigs(20.0f, 60.0f, 2, 3.0f);
-    const auto bass = GenNConfigs(61.0f, 250.0f, 5, 3.0f);
-    const auto lowMidRange = GenNConfigs(251.0f, 500.0f, 10, 3.0f);
-    const auto midRange = GenNConfigs(501.0f, 2000.0f, 10, 3.0f);
-    const auto upperMidRange = GenNConfigs(2001.0f, 4000.0f, 4, 3.0f);
-    const auto presence = GenNConfigs(4001.0f, 6000.0f, 6, 2.0f);
-    const auto brilliance = GenNConfigs(6001.0f, 19000.0f, 8, 2.0f);
-
-    defaultConfig.AppendConfigs(subBass);
-    defaultConfig.AppendConfigs(bass);
-    defaultConfig.AppendConfigs(lowMidRange);
-    defaultConfig.AppendConfigs(midRange);
-    defaultConfig.AppendConfigs(upperMidRange);
-    defaultConfig.AppendConfigs(presence);
-    defaultConfig.AppendConfigs(brilliance);
-    return defaultConfig;
-}
+/*************************************/
 
 Visualizer::Visualizer(const VisualizerConfig_t& config): m_config(config), m_buffer(config.fftSize),
     m_captureThreadPtr(), m_fftLock(), m_shouldShutdown(false), m_rep(), m_fftOutSize(config.fftSize/2 + 1)
