@@ -20,15 +20,20 @@ set_target_properties(fftw3f_imp PROPERTIES IMPORTED_IMPLIB "${FFTW_DIR}/lib/fft
 add_library(fftw3f INTERFACE)
 target_include_directories(fftw3f INTERFACE "${FFTW_DIR}/include")
 target_link_libraries(fftw3f INTERFACE fftw3f_imp)
-install(IMPORTED_RUNTIME_ARTIFACTS fftw3f_imp RUNTIME DESTINATION bin)
+install(IMPORTED_RUNTIME_ARTIFACTS fftw3f_imp RUNTIME DESTINATION . COMPONENT Visualizer)
 
 # GLFW
 set(GLFW_BUILD_DOCS OFF)
 set(GLFW_BUILD_EXAMPLES OFF)
 set(GLFW_BUILD_TESTS OFF)
 set(GLFW_BUILD_TYPE STATIC)
-add_subdirectory("GLFW")
+set(GLFW_INSTALL OFF)
+add_subdirectory("glfw")
 
 # GLAD.
-add_subdirectory(glad)
+add_subdirectory("GLAD")
 
+# yaml-cpp
+set(YAML_CPP_BUILD_CONTRIB OFF)
+set(YAML_CPP_BUILD_TOOLS OFF)
+add_subdirectory("yaml-cpp")
