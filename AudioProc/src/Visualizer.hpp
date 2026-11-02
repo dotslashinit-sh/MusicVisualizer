@@ -56,6 +56,15 @@ struct VisualizerConfig_t {
     inline void AppendConfigs(const std::vector<BarConfig_t>& cfgList) {
         barConfig.insert_range(barConfig.end(), cfgList);
     }
+
+    /// Parses a YAML file and generates a Visualizer configuration object. 
+    static Status_t ParseYamlFile(const std::string& yamlFile, VisualizerConfig_t& cfg);
+
+    // Generates `n` number of bar config with equal frequency width between `start` and `end` frequencies.
+    static std::vector<BarConfig_t> GenNConfigs(float start, float end, size_t n, const float multiplier = 1.0f);
+
+    const VisualizerConfig_t GetDefaultConfig();
+
 };
 
 /// @brief A visualizer object that coontinously reads the audio samples from the default audio output of the device
@@ -124,4 +133,4 @@ private:
 };
 
 float DecayHeightCalc(const VisualizerConfig_t* cfg, const float height, const float prevHeight);
-float FallVelocityHeightCalc(const VisualizerConfig_t* cfg, const float height, const float prevHeight);
+float ConstantFallVelocity(const VisualizerConfig_t* cfg, const float height, const float prevHeight);

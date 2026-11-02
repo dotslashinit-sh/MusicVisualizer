@@ -20,3 +20,4 @@ configure_file(CMake/config.h.in config.h)
 add_subdirectory("MusicVisualizer")
 
 install(FILES Shaders/vertex.glsl Shaders/fragment.glsl DESTINATION Shaders COMPONENT Visualizer)
+install(FILES config/config.yaml DESTINATION . COMPONENT Visualizer)
