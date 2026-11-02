@@ -21,11 +21,14 @@ __NOTE__: Replace the `Release` with `Debug` for the debug config.
 [![CMake Release](https://github.com/dotslashinit-sh/music-visualizer/actions/workflows/cmake-windows-release.yml/badge.svg)](https://github.com/dotslashinit-sh/music-visualizer/actions/workflows/cmake-windows-release.yml)
 
 ## Screenshot
-### v2.0 (Deprecated)
-![visualizer-v20](images/visualizer-v20.gif)
+### v4.0
+![MusicVisualizer-v40](images/MusicVisualizer-v31.gif)
 
 ### v3.1
 ![visualizer-v31](images/visualizer-v31.gif)
+
+### v2.0 (Deprecated)
+![visualizer-v20](images/visualizer-v20.gif)
 
 ## Note
 - I made this project during my free time. I know this project contains a lot of broken code but I am still learning and I promise to get better.
