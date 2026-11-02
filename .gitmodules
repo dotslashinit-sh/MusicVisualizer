@@ -2,3 +2,6 @@
 	path = libraries/glfw
 	url = https://github.com/glfw/glfw.git
 	branch = latest
+[submodule "Libraries/simpleini"]
+	path = Libraries/simpleini
+	url = https://github.com/brofield/simpleini.git
