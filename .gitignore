@@ -5,6 +5,7 @@ GLFW Stuff/x64/*
 build/*
 out/*
 .vscode/*
+install/*
 
 #Extra ide files
 *.json

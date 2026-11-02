@@ -1,5 +1,7 @@
 #include "VisualVisualizer.hpp"
 
+#include "yaml-cpp/yaml.h"
+
 #include <exception>
 #include <print>
 #include <vector>
