@@ -16,6 +16,7 @@ add_library(AudioProc STATIC ${AudioProc_SRCS})
 
 list(APPEND AudioProc_LIBS
     fftw3f
+    yaml-cpp
 )
 
 target_include_directories(AudioProc PUBLIC src)
