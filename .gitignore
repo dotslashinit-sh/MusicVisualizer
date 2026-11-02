@@ -6,10 +6,6 @@ build/*
 out/*
 .vscode/*
 
-# Libraries
-Libraries/GLFW
-Libraries/simpleini
-
 #Extra ide files
 *.json
 
