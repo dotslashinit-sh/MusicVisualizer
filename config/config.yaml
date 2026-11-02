@@ -1,0 +1,47 @@
+---
+fftSize: 2048
+heightCalcFunc: 'DecayHeight'
+decayThreshold: 0.0
+decayConstant: 0.9
+barConfig:
+  - name: 'subbass'
+    type: 'single'
+    start: 20.0
+    end: 60.0
+    multiplier: 2.0
+  - name: 'bass'
+    type: 'multi'
+    start: 61.0
+    end: 250.0
+    count: 4
+    multiplier: 3.0
+  - name: 'lowmidrange'
+    type: 'multi'
+    start: 251.0
+    end: 500.0
+    count: 10
+    multiplier: 3.0
+  - name: 'midrange'
+    type: 'multi'
+    start: 501.0
+    end: 2000.0
+    count: 10
+    multiplier: 3.0
+  - name: 'uppermidrange'
+    type: 'multi'
+    start: 2001.0
+    end: 4000.0
+    count: 4
+    multiplier: 3.0
+  - name: 'presence'
+    type: 'multi'
+    start: 4001.0
+    end: 6000.0
+    count: 6
+    multiplier: 2.0
+  - name: 'presence'
+    type: 'multi'
+    start: 6001.0
+    end: 18000.0
+    count: 8
+    multiplier: 2.0
