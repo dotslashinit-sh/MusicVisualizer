@@ -22,7 +22,7 @@ __NOTE__: Replace the `Release` with `Debug` for the debug config.
 
 ## Screenshot
 ### v4.0
-![MusicVisualizer-v40](images/MusicVisualizer-v31.gif)
+![MusicVisualizer-v40](images/MusicVisualizer-v40.gif)
 
 ### v3.1
 ![visualizer-v31](images/visualizer-v31.gif)
