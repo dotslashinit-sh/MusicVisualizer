@@ -2,9 +2,6 @@
 	path = Libraries/glfw
 	url = https://github.com/glfw/glfw.git
 	branch = latest
-[submodule "Libraries/simpleini"]
-	path = Libraries/simpleini
-	url = https://github.com/brofield/simpleini.git
 [submodule "Libraries/yaml-cpp"]
 	path = Libraries/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp.git
