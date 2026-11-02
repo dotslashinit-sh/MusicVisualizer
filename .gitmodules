@@ -1,5 +1,5 @@
-[submodule "libraries/glfw"]
-	path = libraries/glfw
+[submodule "Libraries/glfw"]
+	path = Libraries/glfw
 	url = https://github.com/glfw/glfw.git
 	branch = latest
 [submodule "Libraries/simpleini"]
