@@ -23,4 +23,7 @@ private:
     IMMDevice* m_pDevice = nullptr;
     IAudioClient* m_pAudioClient = nullptr;
     IAudioCaptureClient* m_pCaptureClient = nullptr;
+    HANDLE m_hEventBufferReady = nullptr;
+
+    size_t m_pktStride;
 };

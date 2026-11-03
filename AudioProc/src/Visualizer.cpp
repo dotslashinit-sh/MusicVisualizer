@@ -181,12 +181,6 @@ Visualizer::Visualizer(const VisualizerConfig_t& config): m_config(config), m_bu
 }
 
 void Visualizer::_CalculateSpectrum() {
-    Status_t status;
-    status = m_stream->UpdateAudioBuffer(&m_buffer);
-    if(status != STATUS_OK) {
-        m_rep.Report(status.value());
-        return;
-    }
     const auto& sz = m_config.fftSize; // Same as buffer size.
     for(int i = 0; i < sz; i++) {
         m_buffer[i] *= m_windowCoeffs[i];
@@ -233,7 +227,13 @@ void Visualizer::_CalculateHeight() {
 }
 
 void Visualizer::_CaptureWorker() {
+    Status_t status;
     while(!m_shouldShutdown) {
+        status = m_stream->UpdateAudioBuffer(&m_buffer);
+        if (status != STATUS_OK) {
+            m_rep.Report(status.value());
+            return;
+        }
         _CalculateSpectrum();
     }
 }

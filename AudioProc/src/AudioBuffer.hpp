@@ -35,11 +35,6 @@ public:
     /// @param size Size of the buffer
     /// @param start Starting position of the sample to be written
     inline void WriteBuffer(const uint8_t* src, size_t size, size_t start = 0) {
-        if(start+size/sizeof(Sample_t) > m_data.size()) {
-            throw std::runtime_error(
-                std::format("Attempted to write after end!")
-            );
-        }
         const Sample_t* src_s = reinterpret_cast<const Sample_t*>(src);
         const size_t src_sz = size / sizeof(Sample_t);
         this->WriteSamples(src_s, src_sz, start);
@@ -47,11 +42,21 @@ public:
 
     inline void WriteSamples(const Sample_t* src, size_t length, size_t start = 0) {
         const size_t bfSz = m_data.size();
-        const size_t end = (start + length > bfSz) ? (start - bfSz) : length;
+        const size_t end = (start + length > bfSz) ? (bfSz - start) : length;
         if(start > bfSz) {
             return;
         }
         std::copy(src, src + end, m_data.begin() + start);
+    }
+
+    inline void WriteSample(const Sample_t value, size_t pos) {
+        if(pos < m_data.size())
+            m_data[pos] = value;
+    }
+
+    inline void FillBuffer(const size_t start, const size_t len, const Sample_t value) {
+        auto s = m_data.begin() + start;
+        std::fill(s, s + len, value);
     }
 
     inline size_t GetSize() const noexcept {
