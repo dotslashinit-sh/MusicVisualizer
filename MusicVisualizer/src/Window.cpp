@@ -15,13 +15,13 @@ Window::Window(const WindowConfig& cfg) : m_window(nullptr) {
     if(m_window == NULL) {
         const std::string message = std::format("Failed to create window with dimenions: {}:{} and title \"{}\"",
             cfg.width, cfg.height, cfg.title);
-        throw std::exception(message.c_str());
+        throw std::runtime_error(message.c_str());
     }
     glfwMakeContextCurrent(m_window);
 
     if(!m_gladLoaded) {
         if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-            throw std::exception("Failed to initialize GLAD!");
+            throw std::runtime_error("Failed to initialize GLAD!");
         }
         m_gladLoaded = true;
     }

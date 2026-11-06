@@ -13,10 +13,10 @@ VisualVisualizer::VisualVisualizer(const VisualizerConfig_t& config, const float
     m_barGap(barGap)
 {
     if(m_instance != nullptr) {
-        throw std::exception("An instance of visual engine already exists! Only one instance can exist at a time!");
+        throw std::runtime_error("An instance of visual engine already exists! Only one instance can exist at a time!");
     }
     if(glfwInit() != GLFW_TRUE) {
-        throw std::exception("Failed to initialize GLFW!");
+        throw std::runtime_error("Failed to initialize GLFW!");
     }
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -26,7 +26,7 @@ VisualVisualizer::VisualVisualizer(const VisualizerConfig_t& config, const float
 
 void VisualVisualizer::CreateWindow(const WindowConfig& cfg) {
     if(m_window != nullptr) {
-        throw std::exception("Attempted to create a new window without destroying existing one!");
+        throw std::runtime_error("Attempted to create a new window without destroying existing one!");
     }
     m_window = new Window(cfg);
 }

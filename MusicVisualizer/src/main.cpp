@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
         engine->SetupGraphics();
         engine->Display();
         delete engine;
-    } catch(const std::exception& ex) {
+    } catch(const std::runtime_error& ex) {
         std::print("{}", ex.what());
         return 1;
     }

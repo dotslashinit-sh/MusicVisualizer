@@ -109,7 +109,7 @@ Status_t VisualizerConfig_t::ParseYamlFile(const std::string& yamlFile, Visualiz
             std::format("Failed to open YAML file \"{}\"!", yamlFile)
         );
     }
-    catch(const std::exception& ex) {
+    catch(const std::runtime_error& ex) {
         return GenError(ERROR_CODE_UNKNOWN,
             ex.what()
         );
